@@ -29,13 +29,24 @@ phi0_deg = 10.0
 fig, ax = plt.subplots(figsize=(6,6))
 plt.subplots_adjust(left=0.12, right=0.98, bottom=0.27, top=0.82)  # space for sliders and matrix
 
-# ellipse outline
-E = ellipse_points(a0, b0)
-(ell_line,) = ax.plot(E[0], E[1], lw=1.5, alpha=0.8, label='ellipse')
-
 # base point on ellipse chosen by φ
 def base_point(a, b, phi_rad):
     return np.array([a*np.cos(phi_rad), b*np.sin(phi_rad)])
+
+# trajectory that p0 traces as θ varies
+def trajectory_points(a, b, phi_rad, n=400):
+    theta_vals = np.linspace(0, 2*np.pi, n)
+    p0 = base_point(a, b, phi_rad)
+    path = np.array([elliptical_rotation(a, b, t) @ p0 for t in theta_vals]).T
+    return path
+
+# ellipse outline (source space)
+E = ellipse_points(a0, b0)
+(ell_line,) = ax.plot(E[0], E[1], lw=1.5, alpha=0.4, ls='--', label='source ellipse')
+
+# trajectory
+traj = trajectory_points(a0, b0, np.deg2rad(phi0_deg))
+(traj_line,) = ax.plot(traj[0], traj[1], lw=1.5, alpha=0.8, label='rotation trajectory')
 
 p0 = base_point(a0, b0, np.deg2rad(phi0_deg))
 
@@ -84,6 +95,10 @@ def update(_):
     # update ellipse outline
     E = ellipse_points(a, b)
     ell_line.set_data(E[0], E[1])
+
+    # update trajectory
+    traj = trajectory_points(a, b, phi)
+    traj_line.set_data(traj[0], traj[1])
 
     # base point p0(φ) on ellipse and rotated point pθ = M(θ)p0
     p0 = base_point(a, b, phi)
