@@ -27,7 +27,7 @@ phi0_deg = 10.0
 
 # --- figure & axes ------------------------------------------------------------
 fig, ax = plt.subplots(figsize=(6,6))
-plt.subplots_adjust(left=0.12, right=0.98, bottom=0.27)  # space for sliders
+plt.subplots_adjust(left=0.12, right=0.98, bottom=0.27, top=0.82)  # space for sliders and matrix
 
 # ellipse outline
 E = ellipse_points(a0, b0)
@@ -56,6 +56,11 @@ ax.legend(loc='upper right')
 ax.set_xlim(-max(a0,b0)*1.4, max(a0,b0)*1.4)
 ax.set_ylim(-max(a0,b0)*1.4, max(a0,b0)*1.4)
 ax.set_title("Elliptical 'Rotation'  M(θ) = S⁻¹ R(θ) S")
+
+# matrix display text
+M0 = elliptical_rotation(a0, b0, np.deg2rad(theta0_deg))
+matrix_text = fig.text(0.5, 0.92, '', ha='center', va='top', family='monospace', fontsize=10)
+matrix_text.set_text(f'M = [{M0[0,0]:7.4f}  {M0[0,1]:7.4f}]\n    [{M0[1,0]:7.4f}  {M0[1,1]:7.4f}]')
 
 # --- sliders ------------------------------------------------------------------
 # regions: [left, bottom, width, height] in figure fraction coords
@@ -96,6 +101,9 @@ def update(_):
     m = 1.4*max(a, b)
     ax.set_xlim(-m, m)
     ax.set_ylim(-m, m)
+
+    # update matrix display
+    matrix_text.set_text(f'M = [{M[0,0]:7.4f}  {M[0,1]:7.4f}]\n    [{M[1,0]:7.4f}  {M[1,1]:7.4f}]')
 
     fig.canvas.draw_idle()
 
