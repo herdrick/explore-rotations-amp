@@ -25,7 +25,7 @@ logr0      = 0.0   # log10(r); r=10**logr, so logr=0 -> r=1 (circle)
 
 # --- figure
 fig, ax = plt.subplots(figsize=(6,6))
-plt.subplots_adjust(left=0.12, right=0.98, bottom=0.23)
+plt.subplots_adjust(left=0.12, right=0.98, bottom=0.23, top=0.87)
 
 # draw ellipse
 r0 = 10.0**logr0
@@ -52,6 +52,10 @@ ax.legend(loc='upper right')
 m = 1.4*max(r0, 1.0)
 ax.set_xlim(-m, m); ax.set_ylim(-m, m)
 ax.set_title("From circle → ellipse → line via aspect ratio r")
+
+M0 = M_theta_r(theta0, r0)
+matrix_text = fig.text(0.5, 0.94, '', ha='center', va='top', family='monospace', fontsize=10)
+matrix_text.set_text(f'M = [{M0[0,0]:7.4f}  {M0[0,1]:7.4f}]\n    [{M0[1,0]:7.4f}  {M0[1,1]:7.4f}]')
 
 # --- sliders
 ax_theta = plt.axes([0.12, 0.16, 0.76, 0.03])
@@ -82,6 +86,8 @@ def update(_):
     # autoscale with r
     m = 1.4*max(r, 1.0)
     ax.set_xlim(-m, m); ax.set_ylim(-m, m)
+
+    matrix_text.set_text(f'M = [{M[0,0]:7.4f}  {M[0,1]:7.4f}]\n    [{M[1,0]:7.4f}  {M[1,1]:7.4f}]')
 
     fig.canvas.draw_idle()
 
