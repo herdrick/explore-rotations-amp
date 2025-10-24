@@ -3,13 +3,13 @@
 ## Commands
 - **Environment**: `conda activate amp-numpy-matplotlib-1`
 - **After changes**: Run the modified script to find and fix problems  before committing
-  - ** to run scripts**:
-    - `python rotate_2d_live.py` - basic 2D rotation with sliders
-    - `python conjugated_rotation_shape.py` - shape transformations via conjugation
-    - `python conjugated_rotation_trajectory.py` - trajectory visualization of M = S⁻¹RS
-  - **No tests** exist
-  - if no errors commit the changes
-    - Commit messages: append " :: Amp" to all commits
+- ** to run scripts**:
+- `python rotate_2d_live.py` - basic 2D rotation with sliders
+- `python conjugated_rotation_shape.py` - shape transformations via conjugation
+- `python conjugated_rotation_trajectory.py` - trajectory visualization of M = S⁻¹RS
+- **No tests** exist
+- if no errors PLEASE commit the changes!
+- Commit messages: append " :: Amp" to all commits
 
 ## Architecture
 - Interactive matplotlib visualizations of rotation matrices
