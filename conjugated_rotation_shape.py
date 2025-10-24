@@ -2,7 +2,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, Button
-from pi_formatter import format_value
+from pi_formatter import format_value, format_trig
 
 def R2(theta):
     c, s = np.cos(theta), np.sin(theta)
@@ -56,7 +56,15 @@ ax.set_title("From circle → ellipse → line via aspect ratio r")
 
 M0 = M_theta_r(theta0, r0)
 matrix_text = fig.text(0.5, 0.94, '', ha='center', va='top', family='monospace', fontsize=10)
-matrix_text.set_text(f'M = [{format_value(M0[0,0]):>10}  {format_value(M0[0,1]):>10}]\n    [{format_value(M0[1,0]):>10}  {format_value(M0[1,1]):>10}]')
+
+def format_M_matrix(M, theta):
+    m00 = format_trig(M[0,0], theta)
+    m01 = format_trig(M[0,1], theta)
+    m10 = format_trig(M[1,0], theta)
+    m11 = format_trig(M[1,1], theta)
+    return f'M = [{m00:>12}  {m01:>12}]\n    [{m10:>12}  {m11:>12}]'
+
+matrix_text.set_text(format_M_matrix(M0, theta0))
 
 # --- sliders
 ax_theta = plt.axes([0.12, 0.16, 0.76, 0.03])
@@ -93,7 +101,7 @@ def update(_):
     m = 1.4*max(r, 1.0)
     ax.set_xlim(-m, m); ax.set_ylim(-m, m)
 
-    matrix_text.set_text(f'M = [{format_value(M[0,0]):>10}  {format_value(M[0,1]):>10}]\n    [{format_value(M[1,0]):>10}  {format_value(M[1,1]):>10}]')
+    matrix_text.set_text(format_M_matrix(M, theta))
     s_theta.valtext.set_text(f'{s_theta.val:.1f}° = {format_value(theta)}')
     s_phi.valtext.set_text(f'{s_phi.val:.1f}° = {format_value(phi)}')
 

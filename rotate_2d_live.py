@@ -5,7 +5,7 @@ import matplotlib
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, Button
-from pi_formatter import format_value
+from pi_formatter import format_value, format_rotation_matrix
 
 def R2(theta):
     c, s = np.cos(theta), np.sin(theta)
@@ -24,9 +24,10 @@ ax.legend(loc='upper left')
 ax.set_xlim(-2,2)
 ax.set_ylim(-2,2)
 
-R = R2(np.deg2rad(30.0))
+theta_init = np.deg2rad(30.0)
+R = R2(theta_init)
 matrix_text = fig.text(0.5, 0.92, '', ha='center', va='top', family='monospace', fontsize=10)
-matrix_text.set_text(f'R = [{format_value(R[0,0]):>10}  {format_value(R[0,1]):>10}]\n    [{format_value(R[1,0]):>10}  {format_value(R[1,1]):>10}]')
+matrix_text.set_text(format_rotation_matrix(R, theta_init))
 
 ax_theta = plt.axes([0.15, 0.08, 0.7, 0.04])
 s_theta = Slider(ax_theta, 'θ', -180.0, 180.0, valinit=30.0, valfmt='%1.1f°')
@@ -36,11 +37,12 @@ ax_reset = plt.axes([0.15, 0.02, 0.15, 0.04])
 btn_reset = Button(ax_reset, 'Reset')
 
 def on_change(val):
-    R = R2(np.deg2rad(s_theta.val))
+    theta = np.deg2rad(s_theta.val)
+    R = R2(theta)
     Q = R @ P
     ax_rot.set_data(Q[0], Q[1])
-    matrix_text.set_text(f'R = [{format_value(R[0,0]):>10}  {format_value(R[0,1]):>10}]\n    [{format_value(R[1,0]):>10}  {format_value(R[1,1]):>10}]')
-    s_theta.valtext.set_text(f'{s_theta.val:.1f}° = {format_value(np.deg2rad(s_theta.val))}')
+    matrix_text.set_text(format_rotation_matrix(R, theta))
+    s_theta.valtext.set_text(f'{s_theta.val:.1f}° = {format_value(theta)}')
     fig.canvas.draw_idle()
 
 def reset(_):

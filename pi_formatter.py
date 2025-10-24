@@ -1,6 +1,6 @@
 import numpy as np
 
-def format_value(val, epsilon=1e-2):
+def format_value(val, epsilon=2e-2):
     """
     Format a numerical value as a fraction of π if it's close to n*π/m.
 
@@ -40,3 +40,59 @@ def format_value(val, epsilon=1e-2):
 
     # No match found, return decimal
     return f"{val:.4f}"
+
+def format_trig(val, angle_rad, epsilon=1e-2):
+    """
+    Format a trig value symbolically if angle is a nice π fraction.
+
+    Args:
+        val: numerical value (sin or cos of angle)
+        angle_rad: the angle in radians
+        epsilon: tolerance for matching
+
+    Returns:
+        Symbolic string like "sin(π/4)" or numerical fallback
+    """
+    angle_str = format_value(angle_rad, epsilon)
+
+    # Only use symbolic form if angle is a π fraction (not decimal)
+    if 'π' not in angle_str:
+        return f"{val:.4f}"
+
+    # Check if val matches cos(angle)
+    if abs(val - np.cos(angle_rad)) < epsilon:
+        return f"cos({angle_str})"
+
+    # Check if val matches sin(angle)
+    if abs(val - np.sin(angle_rad)) < epsilon:
+        return f"sin({angle_str})"
+
+    # Check if val matches -sin(angle)
+    if abs(val + np.sin(angle_rad)) < epsilon:
+        return f"-sin({angle_str})"
+
+    # Check if val matches -cos(angle)
+    if abs(val + np.cos(angle_rad)) < epsilon:
+        return f"-cos({angle_str})"
+
+    # Fallback to numerical
+    return f"{val:.4f}"
+
+def format_rotation_matrix(R, theta, epsilon=1e-2):
+    """
+    Format a 2D rotation matrix, using symbolic trig if theta is a π fraction.
+
+    Args:
+        R: 2x2 rotation matrix
+        theta: rotation angle in radians
+        epsilon: tolerance for matching
+
+    Returns:
+        Formatted string for matrix display
+    """
+    r00 = format_trig(R[0,0], theta, epsilon)
+    r01 = format_trig(R[0,1], theta, epsilon)
+    r10 = format_trig(R[1,0], theta, epsilon)
+    r11 = format_trig(R[1,1], theta, epsilon)
+
+    return f'R = [{r00:>12}  {r01:>12}]\n    [{r10:>12}  {r11:>12}]'

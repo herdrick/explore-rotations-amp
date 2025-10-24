@@ -2,7 +2,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, Button
-from pi_formatter import format_value
+from pi_formatter import format_value, format_trig
 
 # --- math helpers -------------------------------------------------------------
 def R2(theta):
@@ -70,9 +70,18 @@ ax.set_ylim(-max(a0,b0)*1.4, max(a0,b0)*1.4)
 ax.set_title("Elliptical 'Rotation'  M(θ) = S⁻¹ R(θ) S")
 
 # matrix display text
-M0 = elliptical_rotation(a0, b0, np.deg2rad(theta0_deg))
+theta0 = np.deg2rad(theta0_deg)
+M0 = elliptical_rotation(a0, b0, theta0)
 matrix_text = fig.text(0.5, 0.92, '', ha='center', va='top', family='monospace', fontsize=10)
-matrix_text.set_text(f'M = [{format_value(M0[0,0]):>10}  {format_value(M0[0,1]):>10}]\n    [{format_value(M0[1,0]):>10}  {format_value(M0[1,1]):>10}]')
+
+def format_M_matrix(M, theta):
+    m00 = format_trig(M[0,0], theta)
+    m01 = format_trig(M[0,1], theta)
+    m10 = format_trig(M[1,0], theta)
+    m11 = format_trig(M[1,1], theta)
+    return f'M = [{m00:>12}  {m01:>12}]\n    [{m10:>12}  {m11:>12}]'
+
+matrix_text.set_text(format_M_matrix(M0, theta0))
 
 # --- sliders ------------------------------------------------------------------
 # regions: [left, bottom, width, height] in figure fraction coords
@@ -119,7 +128,7 @@ def update(_):
     ax.set_ylim(-m, m)
 
     # update matrix display
-    matrix_text.set_text(f'M = [{format_value(M[0,0]):>10}  {format_value(M[0,1]):>10}]\n    [{format_value(M[1,0]):>10}  {format_value(M[1,1]):>10}]')
+    matrix_text.set_text(format_M_matrix(M, theta))
     s_theta.valtext.set_text(f'{s_theta.val:.1f}° = {format_value(theta)}')
     s_phi.valtext.set_text(f'{s_phi.val:.1f}° = {format_value(phi)}')
 
