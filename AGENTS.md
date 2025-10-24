@@ -6,6 +6,7 @@
   - `python rotate_2d_live.py` - basic 2D rotation with sliders
   - `python conjugated_rotation_shape.py` - shape transformations via conjugation
   - `python conjugated_rotation_trajectory.py` - trajectory visualization of M = S⁻¹RS
+- **After changes**: Run the modified script to verify correctness before committing
 - **No tests** exist
 
 ## Architecture
