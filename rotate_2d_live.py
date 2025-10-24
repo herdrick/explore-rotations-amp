@@ -29,7 +29,8 @@ matrix_text = fig.text(0.5, 0.92, '', ha='center', va='top', family='monospace',
 matrix_text.set_text(f'R = [{format_value(R[0,0]):>10}  {format_value(R[0,1]):>10}]\n    [{format_value(R[1,0]):>10}  {format_value(R[1,1]):>10}]')
 
 ax_theta = plt.axes([0.15, 0.08, 0.7, 0.04])
-s_theta = Slider(ax_theta, 'θ (deg)', -180.0, 180.0, valinit=30.0)
+s_theta = Slider(ax_theta, 'θ', -180.0, 180.0, valinit=30.0, valfmt='%1.1f°')
+s_theta.valtext.set_text(f'{30.0:.1f}° = {format_value(np.deg2rad(30.0))}')
 
 ax_reset = plt.axes([0.15, 0.02, 0.15, 0.04])
 btn_reset = Button(ax_reset, 'Reset')
@@ -39,6 +40,7 @@ def on_change(val):
     Q = R @ P
     ax_rot.set_data(Q[0], Q[1])
     matrix_text.set_text(f'R = [{format_value(R[0,0]):>10}  {format_value(R[0,1]):>10}]\n    [{format_value(R[1,0]):>10}  {format_value(R[1,1]):>10}]')
+    s_theta.valtext.set_text(f'{s_theta.val:.1f}° = {format_value(np.deg2rad(s_theta.val))}')
     fig.canvas.draw_idle()
 
 def reset(_):

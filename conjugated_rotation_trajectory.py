@@ -81,10 +81,12 @@ ax_phi   = plt.axes([0.12, 0.15, 0.76, 0.03])
 ax_a     = plt.axes([0.12, 0.11, 0.76, 0.03])
 ax_b     = plt.axes([0.12, 0.07, 0.76, 0.03])
 
-s_theta = Slider(ax_theta, 'θ (deg)', -180.0, 180.0, valinit=theta0_deg)
-s_phi   = Slider(ax_phi,   'φ (deg)', -180.0, 180.0, valinit=phi0_deg)
+s_theta = Slider(ax_theta, 'θ', -180.0, 180.0, valinit=theta0_deg, valfmt='%1.1f°')
+s_phi   = Slider(ax_phi,   'φ', -180.0, 180.0, valinit=phi0_deg, valfmt='%1.1f°')
 s_a     = Slider(ax_a,     'a (x-axis)', 0.3, 4.0, valinit=a0)
 s_b     = Slider(ax_b,     'b (y-axis)', 0.3, 4.0, valinit=b0)
+s_theta.valtext.set_text(f'{theta0_deg:.1f}° = {format_value(np.deg2rad(theta0_deg))}')
+s_phi.valtext.set_text(f'{phi0_deg:.1f}° = {format_value(np.deg2rad(phi0_deg))}')
 
 ax_reset = plt.axes([0.12, 0.02, 0.15, 0.04])
 btn_reset = Button(ax_reset, 'Reset')
@@ -118,6 +120,8 @@ def update(_):
 
     # update matrix display
     matrix_text.set_text(f'M = [{format_value(M[0,0]):>10}  {format_value(M[0,1]):>10}]\n    [{format_value(M[1,0]):>10}  {format_value(M[1,1]):>10}]')
+    s_theta.valtext.set_text(f'{s_theta.val:.1f}° = {format_value(theta)}')
+    s_phi.valtext.set_text(f'{s_phi.val:.1f}° = {format_value(phi)}')
 
     fig.canvas.draw_idle()
 
