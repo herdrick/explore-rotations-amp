@@ -48,17 +48,17 @@ E = ellipse_points(a0, b0)
 traj = trajectory_points(a0, b0, np.deg2rad(phi0_deg))
 (traj_line,) = ax.plot(traj[0], traj[1], lw=1.5, alpha=0.8, label='rotation trajectory')
 
-p0 = base_point(a0, b0, np.deg2rad(phi0_deg))
-
-# point after elliptical rotation by θ
+# random points
+np.random.seed(42)
+n_pts = 100
+random_pts = np.random.randn(2, n_pts) * 0.8  # spread around origin
 M0 = elliptical_rotation(a0, b0, np.deg2rad(theta0_deg))
-pθ = M0 @ p0
-(pt0_scatter,) = ax.plot([p0[0]], [p0[1]], 'o', label='base point p₀')
-(ptθ_scatter,) = ax.plot([pθ[0]], [pθ[1]], 'o', label='M(θ)·p₀')
+transformed_pts = M0 @ random_pts
 
-# radial guide lines
-(orig_line_p0,) = ax.plot([0, p0[0]], [0, p0[1]], '--', lw=1, alpha=0.5)
-(orig_line_pθ,) = ax.plot([0, pθ[0]], [0, pθ[1]], '--', lw=1, alpha=0.5)
+(pt0_scatter,) = ax.plot(random_pts[0], random_pts[1], 'o', alpha=0.5, ms=4, label='random points')
+(ptθ_scatter,) = ax.plot(transformed_pts[0], transformed_pts[1], 'o', alpha=0.5, ms=4, label='M(θ)·points')
+
+
 
 # format the main axes
 ax.set_aspect('equal', adjustable='box')
@@ -100,17 +100,12 @@ def update(_):
     traj = trajectory_points(a, b, phi)
     traj_line.set_data(traj[0], traj[1])
 
-    # base point p0(φ) on ellipse and rotated point pθ = M(θ)p0
-    p0 = base_point(a, b, phi)
-    M  = elliptical_rotation(a, b, theta)
-    pθ = M @ p0
+    # transform random points
+    M = elliptical_rotation(a, b, theta)
+    transformed_pts = M @ random_pts
 
-    pt0_scatter.set_data([p0[0]], [p0[1]])
-    ptθ_scatter.set_data([pθ[0]], [pθ[1]])
-
-    # guide lines
-    orig_line_p0.set_data([0, p0[0]], [0, p0[1]])
-    orig_line_pθ.set_data([0, pθ[0]], [0, pθ[1]])
+    pt0_scatter.set_data(random_pts[0], random_pts[1])
+    ptθ_scatter.set_data(transformed_pts[0], transformed_pts[1])
 
     # autoscale a bit when a/b change
     m = 1.4*max(a, b)

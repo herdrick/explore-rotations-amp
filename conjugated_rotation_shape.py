@@ -35,15 +35,15 @@ E = ellipse_points(r0)
 def base_point(r, phi_rad):
     return np.array([r*np.cos(phi_rad), np.sin(phi_rad)])
 
+# random points
+np.random.seed(42)
+n_pts = 100
+random_pts = np.random.randn(2, n_pts) * 0.8
 theta0 = np.deg2rad(theta0_deg)
-phi0   = np.deg2rad(phi0_deg)
-p0     = base_point(r0, phi0)
-pθ     = M_theta_r(theta0, r0) @ p0
+transformed_pts = M_theta_r(theta0, r0) @ random_pts
 
-(pt0_scatter,) = ax.plot([p0[0]], [p0[1]], 'o', label='p₀ on ellipse')
-(ptθ_scatter,) = ax.plot([pθ[0]], [pθ[1]], 'o', label='M(θ,r)·p₀')
-(l0,) = ax.plot([0, p0[0]], [0, p0[1]], '--', lw=1, alpha=0.45)
-(l1,) = ax.plot([0, pθ[0]], [0, pθ[1]], '--', lw=1, alpha=0.45)
+(pt0_scatter,) = ax.plot(random_pts[0], random_pts[1], 'o', alpha=0.5, ms=4, label='random points')
+(ptθ_scatter,) = ax.plot(transformed_pts[0], transformed_pts[1], 'o', alpha=0.5, ms=4, label='M(θ,r)·points')
 
 ax.set_aspect('equal', adjustable='box')
 ax.grid(True, alpha=0.35)
@@ -73,14 +73,11 @@ def update(_):
     E = ellipse_points(r)
     ell_line.set_data(E[0], E[1])
 
-    p0 = base_point(r, phi)
-    M  = M_theta_r(theta, r)
-    pθ = M @ p0
+    M = M_theta_r(theta, r)
+    transformed_pts = M @ random_pts
 
-    pt0_scatter.set_data([p0[0]], [p0[1]])
-    ptθ_scatter.set_data([pθ[0]], [pθ[1]])
-    l0.set_data([0, p0[0]], [0, p0[1]])
-    l1.set_data([0, pθ[0]], [0, pθ[1]])
+    pt0_scatter.set_data(random_pts[0], random_pts[1])
+    ptθ_scatter.set_data(transformed_pts[0], transformed_pts[1])
 
     # autoscale with r
     m = 1.4*max(r, 1.0)
