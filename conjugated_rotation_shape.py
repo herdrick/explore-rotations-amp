@@ -2,6 +2,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, Button
+from pi_formatter import format_value
 
 def R2(theta):
     c, s = np.cos(theta), np.sin(theta)
@@ -55,7 +56,7 @@ ax.set_title("From circle → ellipse → line via aspect ratio r")
 
 M0 = M_theta_r(theta0, r0)
 matrix_text = fig.text(0.5, 0.94, '', ha='center', va='top', family='monospace', fontsize=10)
-matrix_text.set_text(f'M = [{M0[0,0]:7.4f}  {M0[0,1]:7.4f}]\n    [{M0[1,0]:7.4f}  {M0[1,1]:7.4f}]')
+matrix_text.set_text(f'M = [{format_value(M0[0,0]):>10}  {format_value(M0[0,1]):>10}]\n    [{format_value(M0[1,0]):>10}  {format_value(M0[1,1]):>10}]')
 
 # --- sliders
 ax_theta = plt.axes([0.12, 0.16, 0.76, 0.03])
@@ -90,7 +91,7 @@ def update(_):
     m = 1.4*max(r, 1.0)
     ax.set_xlim(-m, m); ax.set_ylim(-m, m)
 
-    matrix_text.set_text(f'M = [{M[0,0]:7.4f}  {M[0,1]:7.4f}]\n    [{M[1,0]:7.4f}  {M[1,1]:7.4f}]')
+    matrix_text.set_text(f'M = [{format_value(M[0,0]):>10}  {format_value(M[0,1]):>10}]\n    [{format_value(M[1,0]):>10}  {format_value(M[1,1]):>10}]')
 
     fig.canvas.draw_idle()
 

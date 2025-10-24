@@ -5,6 +5,7 @@ import matplotlib
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, Button
+from pi_formatter import format_value
 
 def R2(theta):
     c, s = np.cos(theta), np.sin(theta)
@@ -25,7 +26,7 @@ ax.set_ylim(-2,2)
 
 R = R2(np.deg2rad(30.0))
 matrix_text = fig.text(0.5, 0.92, '', ha='center', va='top', family='monospace', fontsize=10)
-matrix_text.set_text(f'R = [{R[0,0]:7.4f}  {R[0,1]:7.4f}]\n    [{R[1,0]:7.4f}  {R[1,1]:7.4f}]')
+matrix_text.set_text(f'R = [{format_value(R[0,0]):>10}  {format_value(R[0,1]):>10}]\n    [{format_value(R[1,0]):>10}  {format_value(R[1,1]):>10}]')
 
 ax_theta = plt.axes([0.15, 0.08, 0.7, 0.04])
 s_theta = Slider(ax_theta, 'θ (deg)', -180.0, 180.0, valinit=30.0)
@@ -37,7 +38,7 @@ def on_change(val):
     R = R2(np.deg2rad(s_theta.val))
     Q = R @ P
     ax_rot.set_data(Q[0], Q[1])
-    matrix_text.set_text(f'R = [{R[0,0]:7.4f}  {R[0,1]:7.4f}]\n    [{R[1,0]:7.4f}  {R[1,1]:7.4f}]')
+    matrix_text.set_text(f'R = [{format_value(R[0,0]):>10}  {format_value(R[0,1]):>10}]\n    [{format_value(R[1,0]):>10}  {format_value(R[1,1]):>10}]')
     fig.canvas.draw_idle()
 
 def reset(_):

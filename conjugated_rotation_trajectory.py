@@ -2,6 +2,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, Button
+from pi_formatter import format_value
 
 # --- math helpers -------------------------------------------------------------
 def R2(theta):
@@ -71,7 +72,7 @@ ax.set_title("Elliptical 'Rotation'  M(θ) = S⁻¹ R(θ) S")
 # matrix display text
 M0 = elliptical_rotation(a0, b0, np.deg2rad(theta0_deg))
 matrix_text = fig.text(0.5, 0.92, '', ha='center', va='top', family='monospace', fontsize=10)
-matrix_text.set_text(f'M = [{M0[0,0]:7.4f}  {M0[0,1]:7.4f}]\n    [{M0[1,0]:7.4f}  {M0[1,1]:7.4f}]')
+matrix_text.set_text(f'M = [{format_value(M0[0,0]):>10}  {format_value(M0[0,1]):>10}]\n    [{format_value(M0[1,0]):>10}  {format_value(M0[1,1]):>10}]')
 
 # --- sliders ------------------------------------------------------------------
 # regions: [left, bottom, width, height] in figure fraction coords
@@ -116,7 +117,7 @@ def update(_):
     ax.set_ylim(-m, m)
 
     # update matrix display
-    matrix_text.set_text(f'M = [{M[0,0]:7.4f}  {M[0,1]:7.4f}]\n    [{M[1,0]:7.4f}  {M[1,1]:7.4f}]')
+    matrix_text.set_text(f'M = [{format_value(M[0,0]):>10}  {format_value(M[0,1]):>10}]\n    [{format_value(M[1,0]):>10}  {format_value(M[1,1]):>10}]')
 
     fig.canvas.draw_idle()
 
