@@ -1,7 +1,7 @@
 # elliptical_rotation_family.py
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.widgets import Slider
+from matplotlib.widgets import Slider, Button
 
 def R2(theta):
     c, s = np.cos(theta), np.sin(theta)
@@ -67,6 +67,9 @@ s_phi   = Slider(ax_phi,   'φ (deg)', -180.0, 180.0, valinit=phi0_deg)
 # logr in [-3, +3] -> r in [1e-3, 1e+3]. Avoid exactly r=0.
 s_logr  = Slider(ax_logr,  'shape: log₁₀ r', -3.0, 3.0, valinit=logr0)
 
+ax_reset = plt.axes([0.12, 0.02, 0.15, 0.04])
+btn_reset = Button(ax_reset, 'Reset')
+
 def update(_):
     theta = np.deg2rad(s_theta.val)
     phi   = np.deg2rad(s_phi.val)
@@ -91,7 +94,13 @@ def update(_):
 
     fig.canvas.draw_idle()
 
+def reset(_):
+    s_theta.reset()
+    s_phi.reset()
+    s_logr.reset()
+
 for s in (s_theta, s_phi, s_logr):
     s.on_changed(update)
 
+btn_reset.on_clicked(reset)
 plt.show()

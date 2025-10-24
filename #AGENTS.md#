@@ -1,0 +1,23 @@
+# AGENTS.md
+
+## Commands
+- **Run script**: `python rotate_2d_live.py`
+- **No tests** currently exist in this repository
+
+## Architecture
+- Single-file Python script for visualizing 2D rotations
+- Uses matplotlib with interactive sliders to demonstrate rotation matrices
+
+## Code Style
+- Python 3 with numpy and matplotlib dependencies
+- Constants: uppercase (e.g., `P` for point matrix)
+- Mathematical variables: single letters following convention (e.g., `theta`, `R2`)
+- Matplotlib backend defaults to standard, TkAgg commented out if needed
+
+## running Python code
+- Make sure you are using a conda env called '<your name>-numpy-matplotlib-1'.  If it doesn't exist, create it.  Then if you need to pip install, be sure to "python -m pip install ...".
+- 
+
+## git
+- if you do a commit, append " :: <your name>" where <your name> is the name of you, the agent
+
