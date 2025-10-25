@@ -27,8 +27,8 @@ theta0_deg = 30.0
 phi0_deg = 10.0
 
 # --- figure & axes ------------------------------------------------------------
-fig, ax = plt.subplots(figsize=(6,6))
-plt.subplots_adjust(left=0.12, right=0.98, bottom=0.27, top=0.82)  # space for sliders and matrix
+fig, ax = plt.subplots(figsize=(10,6))
+plt.subplots_adjust(left=0.35, right=0.98, bottom=0.27, top=0.95)  # space for matrices on left, sliders on bottom
 
 # base point on ellipse chosen by φ
 def base_point(a, b, phi_rad):
@@ -72,7 +72,7 @@ ax.set_title("Elliptical 'Rotation'  M(θ) = S⁻¹ R(θ) S")
 # matrix display text
 theta0 = np.deg2rad(theta0_deg)
 M0 = elliptical_rotation(a0, b0, theta0)
-matrix_text = fig.text(0.5, 0.92, '', ha='center', va='top', family='monospace', fontsize=9)
+matrix_text = fig.text(0.02, 0.95, '', ha='left', va='top', family='monospace', fontsize=9)
 
 def format_matrix(mat, label):
     return f'{label} = [{mat[0,0]:>8.3f}  {mat[0,1]:>8.3f}]\n      [{mat[1,0]:>8.3f}  {mat[1,1]:>8.3f}]'
