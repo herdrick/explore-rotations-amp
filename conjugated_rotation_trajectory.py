@@ -74,8 +74,15 @@ theta0 = np.deg2rad(theta0_deg)
 M0 = elliptical_rotation(a0, b0, theta0)
 matrix_text = fig.text(0.02, 0.95, '', ha='left', va='top', family='monospace', fontsize=9)
 
-def format_matrix(mat, label):
+def format_matrix_numeric(mat, label):
     return f'{label} = [{mat[0,0]:>8.3f}  {mat[0,1]:>8.3f}]\n      [{mat[1,0]:>8.3f}  {mat[1,1]:>8.3f}]'
+
+def format_matrix_trig(mat, label, theta):
+    m00 = format_trig(mat[0,0], theta)
+    m01 = format_trig(mat[0,1], theta)
+    m10 = format_trig(mat[1,0], theta)
+    m11 = format_trig(mat[1,1], theta)
+    return f'{label} = [{m00:>12}  {m01:>12}]\n      [{m10:>12}  {m11:>12}]'
 
 def format_all_matrices(a, b, theta):
     R = R2(theta)
@@ -84,13 +91,13 @@ def format_all_matrices(a, b, theta):
     M = elliptical_rotation(a, b, theta)
     
     lines = []
-    lines.append(format_matrix(R, 'R(θ)'))
+    lines.append(format_matrix_trig(R, 'R(θ)', theta))
     lines.append('')
-    lines.append(format_matrix(S, 'S'))
+    lines.append(format_matrix_numeric(S, 'S'))
     lines.append('')
-    lines.append(format_matrix(Sinv, 'S⁻¹'))
+    lines.append(format_matrix_numeric(Sinv, 'S⁻¹'))
     lines.append('')
-    lines.append(format_matrix(M, 'M'))
+    lines.append(format_matrix_trig(M, 'M', theta))
     return '\n'.join(lines)
 
 matrix_text.set_text(format_all_matrices(a0, b0, theta0))
