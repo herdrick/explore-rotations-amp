@@ -14,8 +14,8 @@ def R2(theta):
 P = np.array([[0,0, 1,1, 1,-1, -1,-1, -1,1, 0,0],
               [0,0, 1,-1, 1,  1, -1, 1, -1,-1, 0,0]])
 
-fig, ax = plt.subplots(figsize=(5,5))
-plt.subplots_adjust(bottom=0.22, top=0.85)  # space for slider and matrix
+fig, ax = plt.subplots(figsize=(10,5))
+plt.subplots_adjust(left=0.35, bottom=0.22, top=0.95)  # space for matrix on left, slider on bottom
 (ax_orig,) = ax.plot(P[0], P[1], '--', alpha=0.35, label='original')
 (ax_rot,)  = ax.plot(P[0], P[1], '-',  label='rotated')
 ax.set_aspect('equal', adjustable='box')
@@ -26,8 +26,10 @@ ax.set_ylim(-2,2)
 
 theta_init = np.deg2rad(30.0)
 R = R2(theta_init)
-matrix_text = fig.text(0.5, 0.92, '', ha='center', va='top', family='monospace', fontsize=10)
+matrix_text = fig.text(0.02, 0.95, '', ha='left', va='top', family='monospace', fontsize=10)
+det_text = fig.text(0.02, 0.88, '', ha='left', va='top', family='monospace', fontsize=9)
 matrix_text.set_text(format_rotation_matrix(R, theta_init))
+det_text.set_text(f'det(R) = {np.linalg.det(R):.6f}')
 
 ax_theta = plt.axes([0.15, 0.08, 0.7, 0.04])
 s_theta = Slider(ax_theta, 'θ', -180.0, 180.0, valinit=30.0, valfmt='%1.1f°')
@@ -42,6 +44,7 @@ def on_change(val):
     Q = R @ P
     ax_rot.set_data(Q[0], Q[1])
     matrix_text.set_text(format_rotation_matrix(R, theta))
+    det_text.set_text(f'det(R) = {np.linalg.det(R):.6f}')
     s_theta.valtext.set_text(f'{s_theta.val:.1f}° = {format_value(theta)}')
     fig.canvas.draw_idle()
 
