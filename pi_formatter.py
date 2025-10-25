@@ -6,7 +6,7 @@ def format_value(val, epsilon=2e-2):
 
     Args:
         val: numerical value to format
-        epsilon: tolerance for matching (default 1e-9)
+        epsilon: tolerance for matching
 
     Returns:
         String representation, either as a π fraction or decimal
@@ -41,7 +41,7 @@ def format_value(val, epsilon=2e-2):
     # No match found, return decimal
     return f"{val:.4f}"
 
-def format_trig(val, angle_rad, epsilon=1e-2):
+def format_trig(val, angle_rad, epsilon=2e-2):
     """
     Format a trig value symbolically if angle is a nice π fraction.
 
@@ -78,7 +78,7 @@ def format_trig(val, angle_rad, epsilon=1e-2):
     # Fallback to numerical
     return f"{val:.4f}"
 
-def format_rotation_matrix(R, theta, epsilon=1e-2):
+def format_rotation_matrix(R, theta, epsilon=2e-2):
     """
     Format a 2D rotation matrix, using symbolic trig if theta is a π fraction.
 
