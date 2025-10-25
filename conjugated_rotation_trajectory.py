@@ -37,12 +37,10 @@ def trajectory_points(a, b, n):
     return path
 
 # ellipse outline (source space)
-E = ellipse_points(a0, b0, 100)
-(ell_line,) = ax.plot(E[0], E[1], lw=1.5, alpha=0.4, ls='--', label='source ellipse')
+(ell_line,) = ax.plot([], [], lw=1.5, alpha=0.4, ls='--', label='source ellipse')
 
 # trajectory
-traj = trajectory_points(a0, b0, 100)
-(traj_line,) = ax.plot(traj[0], traj[1], lw=1.5, alpha=0.8, label='rotation trajectory')
+(traj_line,) = ax.plot([], [], lw=1.5, alpha=0.8, label='rotation trajectory')
 
 # random points
 np.random.seed(42)
@@ -147,4 +145,5 @@ for slider in (s_theta, s_a, s_b):
     slider.on_changed(update)
 
 btn_reset.on_clicked(reset)
+update(None)
 plt.show()
