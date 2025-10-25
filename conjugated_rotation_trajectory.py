@@ -101,7 +101,7 @@ ax_theta = plt.axes([0.12, 0.15, 0.76, 0.03])
 ax_a     = plt.axes([0.12, 0.11, 0.76, 0.03])
 ax_b     = plt.axes([0.12, 0.07, 0.76, 0.03])
 
-s_theta = Slider(ax_theta, 'θ', -180.0, 180.0, valinit=theta0_deg, valfmt='%1.1f°')
+s_theta = Slider(ax_theta, 'θ', -360.0, 360.0, valinit=theta0_deg, valfmt='%1.1f°')
 s_a     = Slider(ax_a,     'a (x-axis)', 0.3, 4.0, valinit=a0)
 s_b     = Slider(ax_b,     'b (y-axis)', 0.3, 4.0, valinit=b0)
 s_theta.valtext.set_text(f'{theta0_deg:.1f}° = {format_value(np.deg2rad(theta0_deg))}')
