@@ -20,7 +20,7 @@ def ellipse_points(r, n=400):
     return np.vstack((r*np.cos(t), np.sin(t)))
 
 # --- initial params
-theta0_deg = 30.0
+theta0_deg = 0.0
 logr0      = 0.0   # log10(r); r=10**logr, so logr=0 -> r=1 (circle)
 
 # --- figure
@@ -109,10 +109,6 @@ def update(_):
 
     pt0_scatter.set_data(random_pts[0], random_pts[1])
     ptθ_scatter.set_data(transformed_pts[0], transformed_pts[1])
-
-    # autoscale with r
-    m = 1.4*max(r, 1.0)
-    ax.set_xlim(-m, m); ax.set_ylim(-m, m)
 
     matrix_text.set_text(format_all_matrices(r, theta))
     s_theta.valtext.set_text(f'{s_theta.val:.1f}° = {format_value(theta)}')

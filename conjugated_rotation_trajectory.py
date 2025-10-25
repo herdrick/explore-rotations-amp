@@ -17,31 +17,31 @@ def elliptical_rotation(a, b, theta):
                      [0.0,   1.0/b]])
     return Sinv @ R2(theta) @ S
 
-def ellipse_points(a, b, n=400):
+def ellipse_points(a, b, n):
     t = np.linspace(0, 2*np.pi, n)
     return np.vstack((a*np.cos(t), b*np.sin(t)))
 
 # --- initial params -----------------------------------------------------------
-a0, b0 = 2.0, 1.2
-theta0_deg = 30.0
+a0, b0 = 1.0, 1.0
+theta0_deg = 0.0
 
 # --- figure & axes ------------------------------------------------------------
 fig, ax = plt.subplots(figsize=(10,6))
 plt.subplots_adjust(left=0.35, right=0.98, bottom=0.27, top=0.95)  # space for matrices on left, sliders on bottom
 
 # trajectory that any point traces as θ varies (using [a, 0] as representative)
-def trajectory_points(a, b, n=400):
+def trajectory_points(a, b, n):
     theta_vals = np.linspace(0, 2*np.pi, n)
     p0 = np.array([a, 0.0])
     path = np.array([elliptical_rotation(a, b, t) @ p0 for t in theta_vals]).T
     return path
 
 # ellipse outline (source space)
-E = ellipse_points(a0, b0)
+E = ellipse_points(a0, b0, 100)
 (ell_line,) = ax.plot(E[0], E[1], lw=1.5, alpha=0.4, ls='--', label='source ellipse')
 
 # trajectory
-traj = trajectory_points(a0, b0)
+traj = trajectory_points(a0, b0, 100)
 (traj_line,) = ax.plot(traj[0], traj[1], lw=1.5, alpha=0.8, label='rotation trajectory')
 
 # random points
@@ -84,7 +84,7 @@ def format_all_matrices(a, b, theta):
     S = np.array([[a, 0.0], [0.0, b]])
     Sinv = np.array([[1.0/a, 0.0], [0.0, 1.0/b]])
     M = elliptical_rotation(a, b, theta)
-    
+
     lines = []
     lines.append(format_matrix_trig(R, 'R(θ)', theta))
     lines.append('')
@@ -118,11 +118,11 @@ def update(_):
     theta = np.deg2rad(s_theta.val)
 
     # update ellipse outline
-    E = ellipse_points(a, b)
+    E = ellipse_points(a, b, 100)
     ell_line.set_data(E[0], E[1])
 
     # update trajectory
-    traj = trajectory_points(a, b)
+    traj = trajectory_points(a, b, 100)
     traj_line.set_data(traj[0], traj[1])
 
     # transform random points
@@ -131,11 +131,6 @@ def update(_):
 
     pt0_scatter.set_data(random_pts[0], random_pts[1])
     ptθ_scatter.set_data(transformed_pts[0], transformed_pts[1])
-
-    # autoscale a bit when a/b change
-    m = 1.4*max(a, b)
-    ax.set_xlim(-m, m)
-    ax.set_ylim(-m, m)
 
     # update matrix display
     matrix_text.set_text(format_all_matrices(a, b, theta))
